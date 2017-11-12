@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>save.png</file>
+        <file>crop.png</file>
+        <file>zoomIn.png</file>
+        <file>zoomOut.png</file>
+        <file>open.png</file>
+        <file>background.png</file>
+        <file>select.png</file>
+        <file>about.png</file>
+        <file>rotate.png</file>
+        <file>reset.png</file>
+        <file>default.jpg</file>
+    </qresource>
+</RCC>
