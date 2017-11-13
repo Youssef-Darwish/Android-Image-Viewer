@@ -133,6 +133,11 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
                                             totalScaleFactor * accfactor),true);
            // dummy_count = 0;
         }
+
+        else if (touchPoints.count() == 1){
+
+
+        }
         return true;
     }
     default:

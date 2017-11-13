@@ -27,6 +27,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    QWidget::connect (ui->graphicsView, SIGNAL(area_selected()),
+                       this, SLOT(select_area()));
 }
 
 MainWindow::~MainWindow()
