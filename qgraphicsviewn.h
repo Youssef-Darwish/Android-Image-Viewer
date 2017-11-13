@@ -10,6 +10,10 @@
 #include <QRubberBand>
 #include <QDebug>
 #include <cstdlib>
+#include <QScrollBar>
+#include <QTouchEvent>
+#include <QDebug>
+
 
 class QGraphicsViewn : public QGraphicsView
 {
@@ -17,9 +21,12 @@ class QGraphicsViewn : public QGraphicsView
 private:
     QPoint press,release;
     QRubberBand *rubber_band;
+    qreal totalScaleFactor;
+
 public:
     explicit QGraphicsViewn(QWidget *parent = nullptr);
     QRect get_selected();
+    bool viewportEvent(QEvent *event);
 
 signals:
     void area_selected();
@@ -32,7 +39,6 @@ protected slots:
     void mousePressEvent(QMouseEvent * event);
     void mouseReleaseEvent(QMouseEvent * event);
     void mouseMoveEvent(QMouseEvent * event);
-    void touchEvent(QTouchEvent *event);
 };
 
 #endif // QGRAPHICSVIEWN_H

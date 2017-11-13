@@ -22,12 +22,6 @@ Java_com_amin_QtAndroidGallery_QtAndroidGallery_fileSelected(JNIEnv */*env*/,
 
 
 
-
-
-
-
-
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -40,23 +34,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//void MainWindow::on_pushButton_clicked()
-//{
-//    selectedFileName = "#";
-//    QAndroidJniObject::callStaticMethod<void>("com/amin/QtAndroidGallery/QtAndroidGallery",
-//                                              "openAnImage",
-//                                              "()V");
-//    while(selectedFileName == "#")
-//        qApp->processEvents();
-
-//    if(QFile(selectedFileName).exists())
-//    {
-//        QImage img(selectedFileName);
-//        ui->label->setPixmap(QPixmap::fromImage(img));
-//    }
-
-//}
-
 void MainWindow::on_actionopen_triggered()
 {
     selectedFileName = "#";
@@ -68,16 +45,11 @@ void MainWindow::on_actionopen_triggered()
 
     if(QFile(selectedFileName).exists())
     {
-
-
-
         QImage img(selectedFileName);
         image = img.copy();
         default_image = image.copy(0,0,image.size().width(),image.size().height());
             this->load_image();
             //
-
-
     }
 
 }
@@ -138,7 +110,6 @@ void MainWindow::on_actionrotate_triggered()
 
 void MainWindow::on_rotateSlider_valueChanged(int value)
 {
-//    qInfo() << value << "\n";
 
     ui->graphicsView->unselect();
     ui->angleSpinBox->setValue(value);

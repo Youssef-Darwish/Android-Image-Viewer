@@ -94,7 +94,7 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
             qreal currentScaleFactor =
                     QLineF(touchPoint0.pos(), touchPoint1.pos()).length()
                     / QLineF(touchPoint0.startPos(), touchPoint1.startPos()).length();
-            accfactor = currentScaleFactor;// / accfactor;
+            accfactor = currentScaleFactor / accfactor;
             //            if (touchEvent->touchPointStates() & Qt::TouchPointReleased) {
                 // if one of the fingers is released, remember the current scale
                 // factor so that adding another finger later will continue zooming
