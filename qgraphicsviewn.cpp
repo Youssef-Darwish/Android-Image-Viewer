@@ -3,6 +3,9 @@
 
 using namespace std;
 
+int totalFinalScale=0;
+
+
 QGraphicsViewn::QGraphicsViewn(QWidget *parent) : QGraphicsView(parent)
 {
     rubber_band = NULL;
@@ -94,7 +97,7 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
             qreal currentScaleFactor =
                     QLineF(touchPoint0.pos(), touchPoint1.pos()).length()
                     / QLineF(touchPoint0.startPos(), touchPoint1.startPos()).length();
-            accfactor = currentScaleFactor;// / accfactor;
+            accfactor = currentScaleFactor / accfactor;
             //            if (touchEvent->touchPointStates() & Qt::TouchPointReleased) {
                 // if one of the fingers is released, remember the current scale
                 // factor so that adding another finger later will continue zooming
@@ -104,21 +107,31 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
 //            }
 
 
-//           if (currentScaleFactor > 1) {
-//                currentScaleFactor = std::max(1.1,currentScaleFactor*0.8);
-//           } else {
-//                currentScaleFactor = std::min(0.9,currentScaleFactor*1.1);
-//           }
+
 
            dummy_count++;
-           if (dummy_count < 3) return false;
+           if (dummy_count < 4) return true;
             totalScaleFactor=1;
-            qDebug() << "the scale::" << currentScaleFactor << "\ntotal scal: " << totalScaleFactor << "\n";
+
+            if (currentScaleFactor > 1) {
+                if(totalFinalScale>40)
+                    return true;
+                 totalFinalScale++;
+            } else {
+                if(totalFinalScale<-40)
+                    return true;
+                 totalFinalScale--;
+            }
+
+
+           // qDebug() << "the scale::" << currentScaleFactor << "\ntotal scal: " << totalScaleFactor << "\n";
             //setTransform(QTransform().scale(totalScaleFactor * currentScaleFactor,
                  //                           totalScaleFactor * currentScaleFactor),true);
+            qDebug() << "the scale::" << totalFinalScale <<"\n" ;
+
             setTransform(QTransform().scale(totalScaleFactor * accfactor,
                                             totalScaleFactor * accfactor),true);
-            dummy_count = 0;
+           // dummy_count = 0;
         }
         return true;
     }
