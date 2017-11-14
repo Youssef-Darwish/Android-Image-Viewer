@@ -17,6 +17,7 @@
 
 #include <QtWidgets>
 #include <QtAndroidExtras>
+#include "image.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,11 +31,19 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    enum Mode {
+        CROP,
+        ROTATE,
+        ZOOM_OUT,
+        ZOOM_IN,
+        NO_MODE
+    };
+
 public slots:
      void select_area();
+     void updatePixmap();
 
 private slots:
-
     void on_actionopen_triggered();
     void on_actionReset_triggered();
     void on_actionZoom_In_triggered();
@@ -50,9 +59,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    QImage image;
-    QImage default_image;
-
+    Image image;
+    Mode mode;
 };
 
 #endif // MAINWINDOW_H
