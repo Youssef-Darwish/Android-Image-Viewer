@@ -25,7 +25,7 @@ private:
 
 public:
     explicit QGraphicsViewn(QWidget *parent = nullptr);
-    QRect get_selected();
+    QRect* get_selected();
     bool viewportEvent(QEvent *event);
 
 signals:
@@ -36,9 +36,9 @@ public slots:
     void unselect();
 
 protected slots:
-    void mousePressEvent(QMouseEvent * event);
-    void mouseReleaseEvent(QMouseEvent * event);
-    void mouseMoveEvent(QMouseEvent * event);
+    void pressPoint(QPointF pres);
+    void releasePoint(QPointF pres);
+    void movePoint(QPointF pres);
 };
 
 #endif // QGRAPHICSVIEWN_H

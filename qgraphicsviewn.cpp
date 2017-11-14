@@ -1,5 +1,5 @@
 #include "qgraphicsviewn.h"
-
+#include <QTime>
 
 using namespace std;
 
@@ -14,10 +14,11 @@ QGraphicsViewn::QGraphicsViewn(QWidget *parent) : QGraphicsView(parent)
 
 }
 
-void QGraphicsViewn::mousePressEvent(QMouseEvent * event)
+void QGraphicsViewn::pressPoint(QPointF pres)
 {
-    QGraphicsView::mousePressEvent(event);
-    press = event->pos();
+    press.setX(pres.x());
+
+    press.setY(pres.y());
 
     press.setX(min(press.x(),this->size().width()));
     press.setY(min(press.y(),this->size().height()));
@@ -25,7 +26,7 @@ void QGraphicsViewn::mousePressEvent(QMouseEvent * event)
     press.setY(max(press.y(),0));
 }
 
-QRect QGraphicsViewn::get_selected()
+QRect* QGraphicsViewn::get_selected()
 {
     QPoint start,end;
     start.setX(min(press.x(),release.x()));
@@ -33,19 +34,19 @@ QRect QGraphicsViewn::get_selected()
     end.setX(max(press.x(),release.x()));
     end.setY(max(press.y(),release.y()));
 
-    QRect ret;
-    ret.setX(start.x());
-    ret.setY(start.y());
-    ret.setWidth(end.x()-start.x());
-    ret.setHeight(end.y()-start.y());
+    QRect *ret = new QRect();
+    ret->setX(start.x());
+    ret->setY(start.y());
+    ret->setWidth(end.x()-start.x());
+    ret->setHeight(end.y()-start.y());
     return ret;
 }
 
-void QGraphicsViewn::mouseReleaseEvent(QMouseEvent * event)
+void QGraphicsViewn::releasePoint(QPointF releas)
 {
-    QGraphicsView::mouseReleaseEvent(event);
-    release = event->pos();
+    release.setX(releas.x());
 
+    release.setY(releas.y());
     release.setX(min(release.x(),this->size().width()));
     release.setY(min(release.y(),this->size().height()));
     release.setX(max(release.x(),0));
@@ -54,10 +55,11 @@ void QGraphicsViewn::mouseReleaseEvent(QMouseEvent * event)
 }
 
 
-void QGraphicsViewn::mouseMoveEvent(QMouseEvent * event) {
-    QGraphicsView::mouseMoveEvent(event);
-    release = event->pos();
+void QGraphicsViewn::movePoint(QPointF releas) {
 
+    release.setX(releas.x());
+
+    release.setY(releas.y());
     release.setX(min(release.x(),this->size().width()));
     release.setY(min(release.y(),this->size().height()));
     release.setX(max(release.x(),0));
@@ -68,7 +70,7 @@ void QGraphicsViewn::mouseMoveEvent(QMouseEvent * event) {
 void QGraphicsViewn::select() {
     if (!rubber_band)
            rubber_band = new QRubberBand(QRubberBand::Rectangle, this);
-       rubber_band->setGeometry(get_selected());
+       rubber_band->setGeometry(*get_selected());
        rubber_band->show();
 }
 void QGraphicsViewn::unselect() {
@@ -80,17 +82,23 @@ void QGraphicsViewn::unselect() {
 }
 qreal accfactor = 1;
 int dummy_count = 0;
+QTime push,other;
 bool QGraphicsViewn::viewportEvent(QEvent *event)
 {
     switch (event->type()) {
     case QEvent::TouchBegin:
         accfactor = 1;
+        dummy_count = 0;
+        push = QTime::currentTime();
     case QEvent::TouchUpdate:
     case QEvent::TouchEnd:
     {
         QTouchEvent *touchEvent = static_cast<QTouchEvent *>(event);
         QList<QTouchEvent::TouchPoint> touchPoints = touchEvent->touchPoints();
         if (touchPoints.count() == 2) {
+            unselect();
+
+            push = QTime::currentTime();
             // determine scale factor
             const QTouchEvent::TouchPoint &touchPoint0 = touchPoints.first();
             const QTouchEvent::TouchPoint &touchPoint1 = touchPoints.last();
@@ -110,7 +118,8 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
 
 
            dummy_count++;
-           if (dummy_count < 4) return true;
+           if (dummy_count < 4)
+               return true;
             totalScaleFactor=1;
 
             if (currentScaleFactor > 1) {
@@ -127,7 +136,7 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
            // qDebug() << "the scale::" << currentScaleFactor << "\ntotal scal: " << totalScaleFactor << "\n";
             //setTransform(QTransform().scale(totalScaleFactor * currentScaleFactor,
                  //                           totalScaleFactor * currentScaleFactor),true);
-            qDebug() << "the scale::" << totalFinalScale <<"\n" ;
+//            qDebug() << "the scale::" << totalFinalScale <<"\n" ;
 
             setTransform(QTransform().scale(totalScaleFactor * accfactor,
                                             totalScaleFactor * accfactor),true);
@@ -135,7 +144,19 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
         }
 
         else if (touchPoints.count() == 1){
+        //qDebug() <<"Heroo";
 
+      const QTouchEvent::TouchPoint &touchPoint0 = touchPoints.first();
+      if(event->type() == QEvent::TouchBegin) {
+           pressPoint( touchPoint0.startPos());
+      }
+        else if(push.msecsTo(QTime::currentTime()) < 100) {
+          if(event->type() == QEvent::TouchEnd)
+               unselect();
+          return true;
+      }
+      else
+          movePoint(touchPoint0.pos());
 
         }
         return true;

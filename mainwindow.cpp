@@ -126,3 +126,30 @@ void MainWindow::on_rotateSlider_valueChanged(int value)
 }
 
 
+
+void MainWindow::on_actioncrop_triggered()
+{
+    QRect *area = ui->graphicsView->get_selected();
+    if(!area)
+        return;
+       qDebug() << area->x() << " "<<area->y();
+
+       QPointF temp =  ui->graphicsView->mapToScene( *(new QPoint(area->x(),area->y())) );
+       QPointF temp2 =  ui->graphicsView->mapToScene( *(new QPoint(area->x()+area->width()
+                                                                  ,area->y()+area->height())) );
+       qDebug() << temp << " "<<temp2;
+       area->setX( temp.x());
+       area->setY( temp.y());
+       area->setWidth(temp2.x()-temp.x());
+
+       area->setHeight(temp2.y()-temp.y());
+
+
+       image = image.copy(*area);
+       this->load_image();
+
+       ui->rotateSlider->setVisible(false);
+       ui->rotateSlider->setValue(0);
+       ui->angleSpinBox->setVisible(false);
+       ui->graphicsView->unselect();
+   }

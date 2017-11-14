@@ -134,6 +134,7 @@
    <addaction name="separator"/>
    <addaction name="actionselect"/>
    <addaction name="separator"/>
+   <addaction name="separator"/>
    <addaction name="actionabout"/>
    <addaction name="separator"/>
   </widget>

@@ -45,6 +45,8 @@ private slots:
     void on_rotateSlider_valueChanged(int value);
     void load_image();
 
+    void on_actioncrop_triggered();
+
 private:
     Ui::MainWindow *ui;
     QImage image;
