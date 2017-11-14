@@ -36,7 +36,6 @@ public slots:
 private slots:
 
     void on_actionopen_triggered();
-    //void on_actionsave_triggered();
     void on_actionReset_triggered();
     void on_actionZoom_In_triggered();
     void on_actionZoom_Out_triggered();
@@ -46,6 +45,8 @@ private slots:
     void load_image();
 
     void on_actioncrop_triggered();
+
+    void on_actionsave_triggered();
 
 private:
     Ui::MainWindow *ui;
