@@ -157,27 +157,43 @@ void MainWindow::on_actioncrop_triggered()
 void MainWindow::on_actionsave_triggered()
 {
 
+
+//    QImageWriter writer("new_image.png");
+//    writer.write(image);
+
+
+
     QPixmap mypixmap = QPixmap::fromImage(image);
     QBuffer buffer;
     buffer.open(QIODevice::WriteOnly);
     mypixmap.save(&buffer, "PNG");
     buffer.close();
 
-    QString path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + "/image.png";
+    QString path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    path.append("/Image");
+    path.append(QTime::currentTime().toString());
+    path.append(".png");
+
     QFile file( path  );
     if( file.open( QIODevice::WriteOnly ) )
     {
         file.write( buffer.buffer() );
+        qDebug()<<"saved";
+
         file.close();
     }
     if( file.error() != QFileDevice::NoError )
         qDebug()<<"fatal";
 
-//    path.append("/yourImage.png");
-//    mypixmap.save(path);
+//   path.append("/yourImage.png");
+
+//   mypixmap.save(path);
 
 
 
 //    mypixmap.save("file:///trySave", "BMP");
     qDebug()<<"saved";
 }
+//void QtPhotos::saveImage(QString &imageFileName){
+//    QImageWriter writer(imageFileName);
+//    writer.write(ui->imageLabel->pixmap()->toImage());}
