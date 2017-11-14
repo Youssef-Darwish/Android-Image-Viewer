@@ -17,9 +17,7 @@ QGraphicsViewn::QGraphicsViewn(QWidget *parent) : QGraphicsView(parent)
 void QGraphicsViewn::pressPoint(QPointF pres)
 {
     press.setX(pres.x());
-
     press.setY(pres.y());
-
     press.setX(min(press.x(),this->size().width()));
     press.setY(min(press.y(),this->size().height()));
     press.setX(max(press.x(),0));
@@ -106,16 +104,10 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
                     QLineF(touchPoint0.pos(), touchPoint1.pos()).length()
                     / QLineF(touchPoint0.startPos(), touchPoint1.startPos()).length();
             accfactor = currentScaleFactor / accfactor;
-            //            if (touchEvent->touchPointStates() & Qt::TouchPointReleased) {
-                // if one of the fingers is released, remember the current scale
-                // factor so that adding another finger later will continue zooming
-                // by adding new scale factor to the existing remembered value.
-//                totalScaleFactor *= currentScaleFactor;
-//                currentScaleFactor = 1;
-//            }
 
-
-
+            // if one of the fingers is released, remember the current scale
+            // factor so that adding another finger later will continue zooming
+            // by adding new scale factor to the existing remembered value.
 
            dummy_count++;
            if (dummy_count < 4)
@@ -132,19 +124,11 @@ bool QGraphicsViewn::viewportEvent(QEvent *event)
                  totalFinalScale--;
             }
 
-
-           // qDebug() << "the scale::" << currentScaleFactor << "\ntotal scal: " << totalScaleFactor << "\n";
-            //setTransform(QTransform().scale(totalScaleFactor * currentScaleFactor,
-                 //                           totalScaleFactor * currentScaleFactor),true);
-//            qDebug() << "the scale::" << totalFinalScale <<"\n" ;
-
             setTransform(QTransform().scale(totalScaleFactor * accfactor,
                                             totalScaleFactor * accfactor),true);
-           // dummy_count = 0;
         }
 
         else if (touchPoints.count() == 1){
-        //qDebug() <<"Heroo";
 
       const QTouchEvent::TouchPoint &touchPoint0 = touchPoints.first();
       if(event->type() == QEvent::TouchBegin) {

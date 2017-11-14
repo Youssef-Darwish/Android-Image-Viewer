@@ -68,7 +68,6 @@ void MainWindow::load_image() {
 }
 
 void MainWindow::select_area() {
-    // qDebug() <<ui->graphicsView->get_selected() << "\n";
     ui->graphicsView->select();
 }
 
@@ -153,9 +152,6 @@ void MainWindow::on_actioncrop_triggered()
 void MainWindow::on_actionsave_triggered()
 {
 
-//    QImageWriter writer("new_image.png");
-//    writer.write(image);
-
     QPixmap mypixmap = QPixmap::fromImage(*image.getQImage());
     QBuffer buffer;
     buffer.open(QIODevice::WriteOnly);
@@ -177,14 +173,6 @@ void MainWindow::on_actionsave_triggered()
     }
     if( file.error() != QFileDevice::NoError )
         qDebug()<<"fatal";
-
-//   path.append("/yourImage.png");
-
-//   mypixmap.save(path);
-
-
-
-//    mypixmap.save("file:///trySave", "BMP");
     qDebug()<<"saved";
 }
 
