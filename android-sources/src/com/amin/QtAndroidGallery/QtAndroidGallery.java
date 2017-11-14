@@ -1,4 +1,3 @@
-// http://www.amin-ahmadi.com
 
 package com.amin.QtAndroidGallery;
 

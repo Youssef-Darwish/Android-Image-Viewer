@@ -197,7 +197,7 @@
      <normaloff>:/crop.png</normaloff>:/crop.png</iconset>
    </property>
    <property name="text">
-    <string>crop</string>
+    <string>Crop</string>
    </property>
    <property name="toolTip">
     <string>crop</string>
@@ -212,7 +212,7 @@
      <normaloff>:/open.png</normaloff>:/open.png</iconset>
    </property>
    <property name="text">
-    <string>open</string>
+    <string>Open</string>
    </property>
    <property name="toolTip">
     <string>open</string>
@@ -227,7 +227,7 @@
      <normaloff>:/select.png</normaloff>:/select.png</iconset>
    </property>
    <property name="text">
-    <string>select</string>
+    <string>Select</string>
    </property>
    <property name="toolTip">
     <string>select</string>
@@ -242,7 +242,7 @@
      <normaloff>:/about.png</normaloff>:/about.png</iconset>
    </property>
    <property name="text">
-    <string>about</string>
+    <string>About</string>
    </property>
    <property name="toolTip">
     <string>About</string>
