@@ -61,6 +61,7 @@ private:
     Ui::MainWindow *ui;
     Image image;
     Mode mode;
+    QPixmap pixmap;
 };
 
 #endif // MAINWINDOW_H

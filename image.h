@@ -9,8 +9,9 @@ class Image
 {
 public:
     Image(QString path);
-
+    Image();
     // getters
+    QImage* getOrignal();
     QImage* getQImage();
     QString getPath();
     QRect getCropArea();
@@ -24,19 +25,21 @@ public:
     void setScaleFactor(int);
     void setPixMap(QPixmap);
     void setQImage(QImage);
+    void setOrignal(QImage);
 
     // operation
     void saveImage(QString path);
     void reset();
 
 private:
-    Image();
+
     QString path;
     QImage image;
     double rotationAngle;
     QRect cropArea;
     int scaleFactor;
     QPixmap* pixmap;
+    QImage original;
 };
 
 #endif // IMAGE_H

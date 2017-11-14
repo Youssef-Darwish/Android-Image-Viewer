@@ -48,18 +48,19 @@ void MainWindow::on_actionopen_triggered()
 
     if(QFile(selectedFileName).exists())
     {
-        image->reset();
+        image.reset();
         QImage img(selectedFileName);
         image.setQImage(img.copy());
-        image.setQImage(image.copy(0,0,image.size().width(),image.size().height()));
+        image.setQImage(image.getQImage()->copy(0,0,image.getQImage()->size().width(),image.getQImage()->size().height()));
         this->load_image();
     }
 
 }
 
 void MainWindow::load_image() {
-    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(image));
+    QGraphicsPixmapItem* item = new QGraphicsPixmapItem(QPixmap::fromImage(*image.getQImage()));
     QGraphicsScene *scene = new QGraphicsScene();
+    image.setOrignal(image.getQImage()->copy());
     item->scale();
     scene->addItem(item);
     ui->graphicsView->setScene(scene);
@@ -74,7 +75,7 @@ void MainWindow::select_area() {
 void MainWindow::on_actionReset_triggered()
 {
     ui->graphicsView->unselect();
-    image.setQImage(image.getQImage().copy(0,0,default_image.size().width(),default_image.size().height()));
+    image.setQImage(image.getOrignal()->copy(0,0,image.getOrignal()->size().width(),image.getOrignal()->size().height()));
     this->load_image();
 
     ui->rotateSlider->setVisible(false);
@@ -118,7 +119,7 @@ void MainWindow::on_rotateSlider_valueChanged(int value)
     ui->graphicsView->unselect();
     ui->angleSpinBox->setValue(value);
 
-    image->setRotationAngle(value);
+    image.setRotationAngle(value);
     updatePixmap();
 }
 
@@ -141,7 +142,7 @@ void MainWindow::on_actioncrop_triggered()
        area->setWidth(temp2.x()-temp.x());
        area->setHeight(temp2.y()-temp.y());
 
-       image->setCropArea(*area);
+       image.setCropArea(*area);
        updatePixmap();
 
        ui->rotateSlider->setVisible(false);
@@ -155,7 +156,7 @@ void MainWindow::on_actionsave_triggered()
 //    QImageWriter writer("new_image.png");
 //    writer.write(image);
 
-    QPixmap mypixmap = QPixmap::fromImage(image.getQImage());
+    QPixmap mypixmap = QPixmap::fromImage(*image.getQImage());
     QBuffer buffer;
     buffer.open(QIODevice::WriteOnly);
     mypixmap.save(&buffer, "PNG");
@@ -189,22 +190,26 @@ void MainWindow::on_actionsave_triggered()
 
 
 void MainWindow::updatePixmap() {
-    QMatrix rm;
-    rm.rotate(image->getRotationAngle());
+    delete ui->graphicsView->scene()->items().at(0);
+    delete ui->graphicsView->scene();
 
-    pixmap = QPixmap::fromImage(*image->getQImage());
+    QMatrix rm;
+    rm.rotate(image.getRotationAngle());
+
+    pixmap = QPixmap::fromImage(*image.getQImage());
+
 
     pixmap = pixmap.transformed(rm, Qt::SmoothTransformation);
-    if (image->getCropArea().width() != 0) {
-        pixmap = pixmap.copy(image->getCropArea().x(),
-                             image->getCropArea().y(),
-                             image->getCropArea().width(),
-                             image->getCropArea().height());
+    if (image.getCropArea().width() != 0) {
+        pixmap = pixmap.copy(image.getCropArea().x(),
+                             image.getCropArea().y(),
+                             image.getCropArea().width(),
+                             image.getCropArea().height());
     }
 
     qDebug() << mode << "\n";
     if (mode == CROP) {
-        image->setQImage(pixmap.toImage().copy());
+        image.setQImage(pixmap.toImage().copy());
     }
 
     QGraphicsPixmapItem* item = new QGraphicsPixmapItem(pixmap);

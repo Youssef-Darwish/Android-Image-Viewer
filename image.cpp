@@ -19,6 +19,10 @@ QImage* Image::getQImage()
     return &image;
 }
 
+QImage* Image::getOrignal()
+{
+    return &original;
+}
 QString Image::getPath()
 {
     return path;
@@ -50,6 +54,11 @@ void Image::setCropArea(QRect area)
 void Image::setQImage(QImage newImage)
 {
     this->image = newImage;
+}
+
+void Image::setOrignal(QImage newImage)
+{
+    this->original = newImage;
 }
 
 void Image::setRotationAngle(double angle)
