@@ -130,12 +130,12 @@ void MainWindow::on_actioncrop_triggered()
     QRect *area = ui->graphicsView->get_selected();
     if(!area || area->width() == 0)
         return;
-       qDebug() << area->x() << " "<<area->y();
+//       qDebug() << area->x() << " "<<area->y();
 
        QPointF temp =  ui->graphicsView->mapToScene( *(new QPoint(area->x(),area->y())) );
        QPointF temp2 =  ui->graphicsView->mapToScene( *(new QPoint(area->x()+area->width()
                                                                   ,area->y()+area->height())) );
-       qDebug() << temp << " "<<temp2;
+//       qDebug() << temp << " "<<temp2;
        area->setX( temp.x());
        area->setY( temp.y());
        area->setWidth(temp2.x()-temp.x());
@@ -167,13 +167,13 @@ void MainWindow::on_actionsave_triggered()
     if( file.open( QIODevice::WriteOnly ) )
     {
         file.write( buffer.buffer() );
-        qDebug()<<"saved";
+//        qDebug()<<"saved";
 
         file.close();
     }
-    if( file.error() != QFileDevice::NoError )
-        qDebug()<<"fatal";
-    qDebug()<<"saved";
+    if( file.error() != QFileDevice::NoError ){}
+//        qDebug()<<"fatal";
+//    qDebug()<<"saved";
 }
 
 
@@ -195,7 +195,7 @@ void MainWindow::updatePixmap() {
                              image.getCropArea().height());
     }
 
-    qDebug() << mode << "\n";
+//    qDebug() << mode << "\n";
     if (mode == CROP) {
         image.setQImage(pixmap.toImage().copy());
     }

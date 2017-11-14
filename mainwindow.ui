@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(0, 0, 0);</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -28,6 +31,9 @@
        <widget class="QDoubleSpinBox" name="angleSpinBox">
         <property name="enabled">
          <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(136, 138, 133);</string>
         </property>
         <property name="minimum">
          <double>-180.000000000000000</double>
@@ -47,6 +53,9 @@
         </property>
         <property name="autoFillBackground">
          <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(136, 138, 133);</string>
         </property>
         <property name="minimum">
          <number>-180</number>
@@ -83,6 +92,11 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(136, 138, 133);
+font: 57 14pt &quot;Ubuntu&quot;;
+</string>
+   </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
@@ -106,16 +120,23 @@
     <string>toolBar_2</string>
    </property>
    <property name="styleSheet">
-    <string notr="true"/>
+    <string notr="true">background-color: rgb(136, 138, 133);
+font: 57 14pt &quot;Ubuntu&quot;;</string>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextUnderIcon</enum>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>BottomToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>false</bool>
+    <bool>true</bool>
    </attribute>
    <addaction name="actionZoom_In"/>
    <addaction name="separator"/>
