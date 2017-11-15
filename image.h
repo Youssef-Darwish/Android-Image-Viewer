@@ -17,7 +17,7 @@ public:
     QRect getCropArea();
     double getRotationAngle();
     int getScaleFactor();
-    QPixmap getPixMap();
+    QPixmap* getPixMap();
 
     // setters
     void setCropArea(QRect);
@@ -26,6 +26,7 @@ public:
     void setPixMap(QPixmap);
     void setQImage(QImage);
     void setOrignal(QImage);
+    void setPixMap(QPixmap);
 
     // operation
     void saveImage(QString path);

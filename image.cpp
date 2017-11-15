@@ -43,6 +43,11 @@ int Image::getScaleFactor()
     return scaleFactor;
 }
 
+QPixmap* Image::getPixMap()
+{
+    return &pixmap;
+}
+
 // ***********************************
 //          S E T T E R S
 // ***********************************
@@ -69,6 +74,11 @@ void Image::setRotationAngle(double angle)
 void Image::setScaleFactor(int sf)
 {
     this->scaleFactor = sf;
+}
+
+void Image::setPixMap(QPixmap _pixmap_)
+{
+    this->pixmap = _pixmap_;
 }
 
 // ***********************************

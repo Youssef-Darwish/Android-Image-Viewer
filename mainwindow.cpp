@@ -84,17 +84,41 @@ void MainWindow::on_actionReset_triggered()
 
 void MainWindow::on_actionZoom_In_triggered()
 {
+    mode = ZOOM_IN;
+   double scale_ = 2;
+   if (image->getCropArea().width() > 5 && image->getCropArea().height() > 5) {
+       QPointF tempP = ui->graphicsView->mapToScene(ui->graphicsView->get_selected()->x(),
+                                              ui->graphicsView->get_selected()->y());
+       ui->graphicsView->fitInView(tempP.x(),
+                                   tempP.y(),
+                                   ui->graphicsView->get_selected()->width(),
+                                   ui->graphicsView->get_selected()->height(),
+                                   Qt::KeepAspectRatio);
 
-    ui->graphicsView->unselect();
-    ui->graphicsView->scale(2,2);   //zoom in
+//        ui->graphicsView->setSceneRect(tempP.x(),
+//                                       tempP.y(),
+//                                       ui->graphicsView->get_selected()->width(),
+//                                       ui->graphicsView->get_selected()->height());
 
+       ui->graphicsView->centerOn(ui->graphicsView->mapToScene(ui->graphicsView->get_selected()->center()));
+
+       ui->graphicsView->unselect();
+   } else {
+       ui->graphicsView->scale(scale_ , scale_);
+   }
 }
 
 void MainWindow::on_actionZoom_Out_triggered()
 {
+    mode = ZOOM_OUT;
+    double scale_  = 0.5;
+    if (image->getCropArea().width() > 5 && image->getCropArea().height() > 5) {
+        ui->graphicsView->centerOn(ui->graphicsView->get_selected()->center());
+        ui->graphicsView->unselect();
+        scale_ = 0.7;
+    }
 
-    ui->graphicsView->unselect();
-    ui->graphicsView->scale(.5,.5); //zoom out
+    ui->graphicsView->scale(scale_, scale_);
 }
 
 void MainWindow::on_actionabout_triggered()
@@ -151,11 +175,9 @@ void MainWindow::on_actioncrop_triggered()
 
 void MainWindow::on_actionsave_triggered()
 {
-
-    QPixmap mypixmap = QPixmap::fromImage(*image.getQImage());
     QBuffer buffer;
     buffer.open(QIODevice::WriteOnly);
-    mypixmap.save(&buffer, "PNG");
+    image.getPixMap().save(&buffer, "PNG");
     buffer.close();
 
     QString path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
@@ -186,14 +208,15 @@ void MainWindow::updatePixmap() {
 
     pixmap = QPixmap::fromImage(*image.getQImage());
 
-
     pixmap = pixmap.transformed(rm, Qt::SmoothTransformation);
-    if (image.getCropArea().width() != 0) {
-        pixmap = pixmap.copy(image.getCropArea().x(),
-                             image.getCropArea().y(),
-                             image.getCropArea().width(),
-                             image.getCropArea().height());
+    if (image->getCropArea().width() > 5 && image->getCropArea().height() > 5 && mode == CROP) {
+            pixmap = pixmap.copy(image->getCropArea().x(),
+                                 image->getCropArea().y(),
+                                 image->getCropArea().width(),
+                                 image->getCropArea().height());
     }
+
+    image->setPixMap(pixmap);
 
 //    qDebug() << mode << "\n";
     if (mode == CROP) {
