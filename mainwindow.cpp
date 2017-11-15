@@ -128,7 +128,7 @@ void MainWindow::on_actioncrop_triggered()
 {
     mode = CROP;
     QRect *area = ui->graphicsView->get_selected();
-    if(!area || area->width() == 0)
+    if(!area || (area->width() <10 && area->height()<10))
         return;
 //       qDebug() << area->x() << " "<<area->y();
 
