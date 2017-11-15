@@ -1,5 +1,6 @@
 #ifndef IMAGE_H
 #define IMAGE_H
+#include <QPixmap>
 
 #include <QImage>
 #include <QRect>
@@ -26,7 +27,6 @@ public:
     void setPixMap(QPixmap);
     void setQImage(QImage);
     void setOrignal(QImage);
-    void setPixMap(QPixmap);
 
     // operation
     void saveImage(QString path);
@@ -39,7 +39,7 @@ private:
     double rotationAngle;
     QRect cropArea;
     int scaleFactor;
-    QPixmap* pixmap;
+    QPixmap pixmap;
     QImage original;
 };
 

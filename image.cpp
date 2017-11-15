@@ -1,5 +1,4 @@
 #include "image.h"
-
 Image::Image(QString path)
     : image(path)
 {
@@ -78,7 +77,7 @@ void Image::setScaleFactor(int sf)
 
 void Image::setPixMap(QPixmap _pixmap_)
 {
-    this->pixmap = _pixmap_;
+    (this->pixmap) = _pixmap_;
 }
 
 // ***********************************
